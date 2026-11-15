@@ -150,6 +150,33 @@ export default function Icon({ name, size = 18, className = '', style = {} }) {
           <rect x="14" y="5" width="4" height="14" rx="1" fill="currentColor" stroke="none" />
         </svg>
       );
+    case 'laser':
+      return (
+        <svg {...props}>
+          <rect x="2" y="9" width="6" height="6" rx="1" fill="currentColor" />
+          <line x1="8" y1="12" x2="22" y2="12" strokeWidth="2.5" />
+          <line x1="16" y1="6" x2="22" y2="12" />
+          <line x1="16" y1="18" x2="22" y2="12" />
+        </svg>
+      );
+    case 'mirror':
+      return (
+        <svg {...props}>
+          <line x1="4" y1="20" x2="20" y2="4" strokeWidth="3" />
+          <line x1="10" y1="17" x2="13" y2="20" strokeWidth="1.5" />
+          <line x1="14" y1="13" x2="17" y2="16" strokeWidth="1.5" />
+          <line x1="18" y1="9" x2="21" y2="12" strokeWidth="1.5" />
+        </svg>
+      );
+    case 'bomb':
+      return (
+        <svg {...props}>
+          <circle cx="11" cy="13" r="8" />
+          <path d="M14.5 4.5l2-2" />
+          <path d="M16 2.5l2 2" />
+          <path d="M19 1l-1 2" />
+        </svg>
+      );
     case 'play':
       return (
         <svg {...props}>

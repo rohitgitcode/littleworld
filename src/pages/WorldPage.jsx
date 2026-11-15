@@ -16,7 +16,8 @@ export default function WorldPage({ onNotify, onLaunchGame }) {
       zone.id === 'reaction-reactor' ||
       zone.id === 'memory-maze' ||
       zone.id === 'pattern-panic' ||
-      zone.id === 'challenge-tower'
+      zone.id === 'challenge-tower' ||
+      zone.id === 'laser-maze'
     ) {
       if (onLaunchGame) {
         onLaunchGame(zone.id);

@@ -562,6 +562,26 @@
   right: 18px;
 }
 
+/* Laser Maze Card (Pink) */
+.zone-card.card-laser {
+  background: var(--surface);
+  flex-direction: column;
+  gap: 16px;
+}
+
+@media (min-width: 600px) {
+  .zone-card.card-laser {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+}
+
+.btn-zone-laser {
+  background: var(--pink) !important;
+  color: #1E1B2E !important;
+}
+
 /* Challenge Tower Wide Card */
 .zone-card.card-tower {
   background: var(--surface);

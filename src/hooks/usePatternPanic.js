@@ -1,156 +1,23 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { playCorrectSound, playWrongSound, triggerHaptic } from '../utils/audio';
+import { generatePattern } from '../games/pattern/patternGenerators';
+
+export { generatePattern };
 
 const GAME_DURATION = 45; // 45-second pattern rush
 
-// Curated pattern templates with algorithmic variation
-export const generatePattern = (difficultyLevel) => {
-  const type = Math.floor(Math.random() * 6);
+// Time allotted per question based on correct count
+const getQuestionTimeForCorrect = (correct) => {
+  if (correct < 3) return 10;
+  if (correct < 7) return 7;
+  return 5;
+};
 
-  if (type === 0 || difficultyLevel === 1) {
-    // Arithmetic progression (e.g., +3, +4, +5)
-    const start = Math.floor(Math.random() * 15) + 1;
-    const step = Math.floor(Math.random() * 5) + 2;
-    const full = [start, start + step, start + step * 2, start + step * 3, start + step * 4];
-    const missingIndex = Math.floor(Math.random() * 2) + 3; // missing 3rd or 4th item
-    const answer = full[missingIndex];
-    full[missingIndex] = '?';
-
-    // Generate distractors
-    const options = [
-      answer,
-      answer + step,
-      answer - step > 0 ? answer - step : answer + step * 2,
-      answer + 1,
-    ].sort(() => Math.random() - 0.5);
-
-    return {
-      category: 'Arithmetic Series',
-      sequence: full,
-      correctAnswer: answer,
-      options,
-      hint: `Step pattern: +${step}`,
-    };
-  } else if (type === 1) {
-    // Multiplicative / Doubling series
-    const mult = difficultyLevel > 2 ? 3 : 2;
-    const start = Math.floor(Math.random() * 3) + 2;
-    const full = [start, start * mult, start * mult * mult, start * mult * mult * mult];
-    const missingIndex = 3;
-    const answer = full[missingIndex];
-    full[missingIndex] = '?';
-
-    const options = [
-      answer,
-      answer - start,
-      answer + start * 2,
-      answer * 2,
-    ].sort(() => Math.random() - 0.5);
-
-    return {
-      category: 'Scaling Series',
-      sequence: full,
-      correctAnswer: answer,
-      options,
-      hint: `Multiplying by ${mult}`,
-    };
-  } else if (type === 2) {
-    // Alternating addition / subtraction (e.g., +4, -1, +4, -1)
-    const base = Math.floor(Math.random() * 10) + 10;
-    const add = Math.floor(Math.random() * 3) + 3;
-    const sub = Math.floor(Math.random() * 2) + 1;
-    const full = [base, base + add, base + add - sub, base + add - sub + add, base + add - sub + add - sub];
-    const missingIndex = 4;
-    const answer = full[missingIndex];
-    full[missingIndex] = '?';
-
-    const options = [
-      answer,
-      answer + 2,
-      answer - 2,
-      answer + sub,
-    ].sort(() => Math.random() - 0.5);
-
-    return {
-      category: 'Oscillating Series',
-      sequence: full,
-      correctAnswer: answer,
-      options,
-      hint: `Alternating +${add} and -${sub}`,
-    };
-  } else if (type === 3) {
-    // Geometric / Symbolic progression
-    const sets = [
-      ['▲', '◆', '●', '▲', '◆', '?'],
-      ['■', '▲', '■', '▲', '■', '?'],
-      ['★', '✦', '★', '✦', '★', '?'],
-      ['⬡', '⬢', '⬡', '⬢', '⬡', '?'],
-    ];
-    const chosen = sets[Math.floor(Math.random() * sets.length)];
-    const sequence = [...chosen];
-    const answer = chosen[chosen.length - 2] === chosen[0] ? chosen[1] : chosen[0];
-
-    const distractorPool = ['▲', '◆', '●', '■', '★', '⬡'].filter((s) => s !== answer);
-    const options = [
-      answer,
-      distractorPool[0],
-      distractorPool[1],
-      distractorPool[2],
-    ].sort(() => Math.random() - 0.5);
-
-    return {
-      category: 'Shape Cycle',
-      sequence,
-      correctAnswer: answer,
-      options,
-      hint: 'Repeating shape cycle',
-    };
-  } else if (type === 4) {
-    // Square Numbers series (1, 4, 9, 16, 25, 36)
-    const startN = Math.floor(Math.random() * 3) + 1;
-    const full = [startN ** 2, (startN + 1) ** 2, (startN + 2) ** 2, (startN + 3) ** 2];
-    const answer = full[3];
-    full[3] = '?';
-
-    const options = [
-      answer,
-      answer - 5,
-      answer + 7,
-      answer + 9,
-    ].sort(() => Math.random() - 0.5);
-
-    return {
-      category: 'Square Powers',
-      sequence: full,
-      correctAnswer: answer,
-      options,
-      hint: 'Perfect square sequence',
-    };
-  } else {
-    // Fibonacci-style addition (a + b = c)
-    const a = Math.floor(Math.random() * 3) + 1;
-    const b = a + 1;
-    const c = a + b;
-    const d = b + c;
-    const e = c + d;
-    const full = [a, b, c, d, '?'];
-    const answer = e;
-
-    const options = [
-      answer,
-      answer + 2,
-      answer - 1,
-      answer + 4,
-    ].sort(() => Math.random() - 0.5);
-
-    return {
-      category: 'Fibonacci Addition',
-      sequence: full,
-      correctAnswer: answer,
-      options,
-      hint: 'Each number is the sum of previous two',
-    };
-  }
+// Difficulty tier based on correct count
+const getTierForCorrect = (correct) => {
+  if (correct < 3) return 1;
+  if (correct < 7) return 2;
+  return 3;
 };
 
 /**
@@ -158,10 +25,12 @@ export const generatePattern = (difficultyLevel) => {
  * 
  * Manages game state and puzzles for Pattern Panic:
  * - 45s countdown rush
- * - Algorithmic and curated puzzle sequence generation
- * - Multiple choice answer evaluation
+ * - Difficulty ramps by correct-answer count (Tier 1 -> Tier 2 -> Tier 3)
+ * - Shorter time per question at higher levels (10s -> 7s -> 5s)
+ * - Non-repetitive questions tracked via history signatures
+ * - Multiple choice answer evaluation with 400ms double-tap protection
  * - Scoring (+20 per correct, -5 per wrong, min 0)
- * - Immediate visual feedback and proper result screen
+ * - Visual feedback with post-answer rule explanation
  */
 export default function usePatternPanic(config = {}) {
   const gameDuration = config?.duration ?? GAME_DURATION;
@@ -175,14 +44,18 @@ export default function usePatternPanic(config = {}) {
   const [currentPattern, setCurrentPattern] = useState(null);
   const [answerFeedback, setAnswerFeedback] = useState(null); // { isCorrect, selectedOption } | null
   const [difficultyLevel, setDifficultyLevel] = useState(1);
+  const [questionTimeLeft, setQuestionTimeLeft] = useState(10);
+  const [questionTimeLimit, setQuestionTimeLimit] = useState(10);
 
   const gameTimerRef = useRef(null);
+  const questionTimerRef = useRef(null);
   const feedbackTimerRef = useRef(null);
-  const difficultyCounterRef = useRef(1);
   const isAnsweringRef = useRef(false);
+  const historyRef = useRef([]);
 
   const clearTimers = useCallback(() => {
     if (gameTimerRef.current) clearInterval(gameTimerRef.current);
+    if (questionTimerRef.current) clearInterval(questionTimerRef.current);
     if (feedbackTimerRef.current) clearTimeout(feedbackTimerRef.current);
   }, []);
 
@@ -190,14 +63,25 @@ export default function usePatternPanic(config = {}) {
     return () => clearTimers();
   }, [clearTimers]);
 
-  // Load next puzzle
-  const nextPuzzle = useCallback(() => {
-    difficultyCounterRef.current += 1;
-    setDifficultyLevel(difficultyCounterRef.current);
-    const puzzle = generatePattern(difficultyCounterRef.current);
+  // Load next puzzle with history tracking
+  const nextPuzzle = useCallback((newCorrectCount = correctCount) => {
+    const tier = getTierForCorrect(newCorrectCount);
+    setDifficultyLevel(tier);
+
+    const qLimit = getQuestionTimeForCorrect(newCorrectCount);
+    setQuestionTimeLimit(qLimit);
+    setQuestionTimeLeft(qLimit);
+
+    const puzzle = generatePattern(tier, historyRef.current);
+    if (puzzle?.signature) {
+      historyRef.current.push(puzzle.signature);
+      if (historyRef.current.length > 12) {
+        historyRef.current.shift();
+      }
+    }
     setCurrentPattern(puzzle);
     setAnswerFeedback(null);
-  }, []);
+  }, [correctCount]);
 
   // Start game session
   const startGame = useCallback(() => {
@@ -206,15 +90,20 @@ export default function usePatternPanic(config = {}) {
     setCorrectCount(0);
     setWrongCount(0);
     setTimeLeft(gameDuration);
-    difficultyCounterRef.current = 1;
     setDifficultyLevel(1);
+    setQuestionTimeLimit(10);
+    setQuestionTimeLeft(10);
+    historyRef.current = [];
     isAnsweringRef.current = false;
     setAnswerFeedback(null);
-    setCurrentPattern(generatePattern(1));
+
+    const firstPuzzle = generatePattern(1, []);
+    if (firstPuzzle?.signature) historyRef.current.push(firstPuzzle.signature);
+    setCurrentPattern(firstPuzzle);
     setGameState('playing');
   }, [clearTimers, gameDuration]);
 
-  // Main countdown timer
+  // Main game countdown timer (45s)
   useEffect(() => {
     if (gameState !== 'playing') return;
 
@@ -234,6 +123,47 @@ export default function usePatternPanic(config = {}) {
     };
   }, [gameState, clearTimers]);
 
+  // Per-question timer (shorter at higher tiers)
+  useEffect(() => {
+    if (gameState !== 'playing' || answerFeedback !== null || !currentPattern) {
+      if (questionTimerRef.current) clearInterval(questionTimerRef.current);
+      return;
+    }
+
+    questionTimerRef.current = setInterval(() => {
+      setQuestionTimeLeft((prev) => {
+        if (prev <= 1) {
+          clearInterval(questionTimerRef.current);
+          // Question timed out
+          playWrongSound();
+          triggerHaptic(40);
+          setScore((s) => Math.max(0, s - 5));
+          setWrongCount((w) => w + 1);
+          setAnswerFeedback({
+            isCorrect: false,
+            selectedOption: 'TIMEOUT',
+            timedOut: true,
+          });
+
+          feedbackTimerRef.current = setTimeout(() => {
+            if (maxQuestions && (correctCount + wrongCount + 1) >= maxQuestions) {
+              clearTimers();
+              setGameState('completed');
+            } else {
+              nextPuzzle();
+            }
+          }, 800);
+          return 0;
+        }
+        return prev - 1;
+      });
+    }, 1000);
+
+    return () => {
+      if (questionTimerRef.current) clearInterval(questionTimerRef.current);
+    };
+  }, [gameState, answerFeedback, currentPattern, correctCount, wrongCount, maxQuestions, clearTimers, nextPuzzle]);
+
   // Evaluate user choice with double-tap blocking (400ms)
   const handleAnswer = useCallback((option) => {
     if (gameState !== 'playing' || answerFeedback !== null || !currentPattern || isAnsweringRef.current) return;
@@ -243,13 +173,18 @@ export default function usePatternPanic(config = {}) {
       isAnsweringRef.current = false;
     }, 400);
 
+    // Stop question timer immediately on answer
+    if (questionTimerRef.current) clearInterval(questionTimerRef.current);
+
     const isCorrect = String(option) === String(currentPattern.correctAnswer);
 
+    let updatedCorrect = correctCount;
     if (isCorrect) {
       playCorrectSound();
       triggerHaptic(20);
       setScore((prev) => prev + 20);
-      setCorrectCount((prev) => prev + 1);
+      updatedCorrect = correctCount + 1;
+      setCorrectCount(updatedCorrect);
       setAnswerFeedback({ isCorrect: true, selectedOption: option });
     } else {
       playWrongSound();
@@ -265,7 +200,7 @@ export default function usePatternPanic(config = {}) {
         clearTimers();
         setGameState('completed');
       } else {
-        nextPuzzle();
+        nextPuzzle(updatedCorrect);
       }
     }, 550);
   }, [gameState, answerFeedback, currentPattern, nextPuzzle, maxQuestions, correctCount, wrongCount, clearTimers]);
@@ -304,6 +239,8 @@ export default function usePatternPanic(config = {}) {
   return {
     gameState,
     timeLeft,
+    questionTimeLeft,
+    questionTimeLimit,
     score,
     correctCount,
     wrongCount,

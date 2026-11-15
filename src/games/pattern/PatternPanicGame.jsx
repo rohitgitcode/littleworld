@@ -19,6 +19,8 @@ export default function PatternPanicGame({ onExit, config, onComplete, embedded 
   const {
     gameState,
     timeLeft,
+    questionTimeLeft,
+    questionTimeLimit,
     score,
     correctCount,
     wrongCount,
@@ -226,7 +228,7 @@ export default function PatternPanicGame({ onExit, config, onComplete, embedded 
         {(gameState === 'playing' || gameState === 'paused') && currentPattern && (
           <section className="pattern-arena" aria-label="Pattern Arena">
             <div className="pattern-category-bar">
-              {difficultyLevel === 1 && (
+              {difficultyLevel === 1 && !answerFeedback && (
                 <span className="badge-pill badge-pink">
                   <Icon name="puzzle" size={12} />
                   <span>{currentPattern.category}</span>
@@ -236,10 +238,18 @@ export default function PatternPanicGame({ onExit, config, onComplete, embedded 
                 <div className="pattern-feedback-row">
                   <Mascot state={answerFeedback.isCorrect ? 'happy' : 'sad'} size={32} />
                   <span className="pattern-feedback-explanation">
-                    {currentPattern.hint}
+                    {answerFeedback.timedOut ? `Time's up! ${currentPattern.hint}` : currentPattern.hint}
                   </span>
                 </div>
               )}
+            </div>
+
+            {/* Per-question quick timer line */}
+            <div className="pattern-question-bar-track" aria-hidden="true">
+              <div
+                className={`pattern-question-bar-fill ${questionTimeLeft <= 2 ? 'urgent' : ''}`}
+                style={{ transform: `scaleX(${Math.max(0, questionTimeLeft / (questionTimeLimit || 10))})` }}
+              />
             </div>
 
             <div className="pattern-sequence-row">

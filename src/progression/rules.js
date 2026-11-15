@@ -30,12 +30,17 @@ export const DEFAULT_SAVE = {
     'memory-maze': 0,
     'pattern-panic': 0,
     'tower': 0,
+    'laser': 0,
   },
   personalBests: {
     'reaction-reactor': { score: 0, bestRt: 0, accuracy: 0 },
     'memory-maze': { score: 0, level: 0, longest: 0 },
     'pattern-panic': { score: 0, correct: 0, accuracy: 0 },
     'tower': { score: 0, rank: 'D' },
+    'laser': { clearedLevels: 0, totalStars: 0 },
+  },
+  laserProgress: {
+    clearedLevels: {},
   },
   streak: {
     current: 0,
@@ -117,6 +122,14 @@ export const calculateRewards = (game, stats) => {
     const rankMultipliers = { S: 2.2, A: 1.8, B: 1.4, C: 1.1, D: 0.9 };
     const mult = rankMultipliers[stats?.rank] || 1.0;
     bonus = Math.floor(Math.max(15, (stats?.score || 0) * 0.8) * mult);
+  } else if (game === 'laser' || game === 'laser-maze') {
+    if (stats?.isReplay) {
+      return { xpEarned: 0, coinsEarned: 0 };
+    }
+    const stars = stats?.stars || 1;
+    const level = stats?.level || 1;
+    const xp = 15 + 10 * stars + level;
+    return { xpEarned: xp, coinsEarned: Math.max(1, Math.floor(xp / 4)) };
   }
 
   const xpEarned = Math.max(0, 10 + Math.max(0, bonus));
@@ -182,6 +195,27 @@ export const ACHIEVEMENTS = [
     description: 'Achieve the prestigious S Rank in Challenge Tower.',
     rewardCoins: 100,
     icon: 'star',
+  },
+  {
+    id: 'beam_starter',
+    title: 'Beam Starter',
+    description: 'Clear Level 1 in Laser Maze.',
+    rewardCoins: 25,
+    icon: 'laser',
+  },
+  {
+    id: 'mirror_master',
+    title: 'Mirror Master',
+    description: 'Clear all 12 levels in Laser Maze.',
+    rewardCoins: 60,
+    icon: 'star',
+  },
+  {
+    id: 'perfect_par',
+    title: 'Perfect Par',
+    description: 'Earn 3 stars on 5 different Laser Maze levels.',
+    rewardCoins: 40,
+    icon: 'trophy',
   },
 ];
 
@@ -260,6 +294,7 @@ const DAILY_POOL = [
   { id: 'd_score_memory', title: 'Sequence Flow', desc: 'Score 60+ in Memory Maze', game: 'memory-maze', target: 60, type: 'score', reward: 40 },
   { id: 'd_play_pattern', title: 'Pattern Rush', desc: 'Solve 4 correct patterns in Pattern Panic', game: 'pattern-panic', target: 4, type: 'correct', reward: 35 },
   { id: 'd_score_pattern', title: 'Logic Burst', desc: 'Score 80+ in Pattern Panic', game: 'pattern-panic', target: 80, type: 'score', reward: 45 },
+  { id: 'd_play_laser', title: 'Laser Alignment', desc: 'Clear 1 level in Laser Maze', game: 'laser', target: 1, type: 'plays', reward: 35 },
   { id: 'd_any_games', title: 'Arcade Triad', desc: 'Play 3 arcade matches today', game: 'any', target: 3, type: 'plays', reward: 50 },
 ];
 
@@ -268,6 +303,7 @@ const WEEKLY_POOL = [
   { id: 'w_reaction_200', title: 'High Velocity', desc: 'Score 180+ in Reaction Reactor', game: 'reaction-reactor', target: 180, type: 'score', reward: 100 },
   { id: 'w_memory_7', title: 'Memory Legend', desc: 'Reach Round 7 in Memory Maze', game: 'memory-maze', target: 7, type: 'level', reward: 120 },
   { id: 'w_pattern_150', title: 'Pattern Master', desc: 'Score 140+ in Pattern Panic', game: 'pattern-panic', target: 140, type: 'score', reward: 110 },
+  { id: 'w_laser_levels', title: 'Optic Master', desc: 'Clear 5 levels in Laser Maze this week', game: 'laser', target: 5, type: 'plays', reward: 110 },
 ];
 
 export const generateDailyChallenges = (dateStr) => {

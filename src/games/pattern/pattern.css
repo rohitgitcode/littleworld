@@ -178,6 +178,29 @@
   background: var(--tomato);
 }
 
+/* Question time bar */
+.pattern-question-bar-track {
+  width: 100%;
+  height: 4px;
+  background: var(--surface-2);
+  border-radius: 999px;
+  overflow: hidden;
+  margin: 2px 0 8px 0;
+  pointer-events: none;
+}
+
+.pattern-question-bar-fill {
+  width: 100%;
+  height: 100%;
+  background: var(--violet);
+  transform-origin: left center;
+  transition: transform 1s linear, background-color 0.2s ease;
+}
+
+.pattern-question-bar-fill.urgent {
+  background: var(--tomato);
+}
+
 /* --------------------------------------------------------------------------
    PUZZLE BOARD ARENA
    -------------------------------------------------------------------------- */

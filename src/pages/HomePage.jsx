@@ -324,7 +324,64 @@ export default function HomePage({ onNotify, onLaunchGame }) {
           </div>
         </div>
 
-        {/* 3C. CHALLENGE TOWER WIDE CARD (NO ROTATION) */}
+        {/* 3C. LASER MAZE (PINK OPTICS PUZZLE) */}
+        <div className="zone-card card-laser">
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', flex: 1 }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
+              <span
+                className="zone-badge-tag"
+                style={{ background: 'var(--pink)', color: '#1E1B2E' }}
+              >
+                Optics • 12 Chambers
+              </span>
+            </div>
+
+            <h3 className="zone-title">Laser Maze</h3>
+            <p className="zone-desc">
+              Rotate optical mirrors to reflect high-energy laser beams into target diamonds.
+            </p>
+
+            <div className="zone-stats-row">
+              <div className="zone-stat-item">
+                <span className="zone-stat-label">Cleared:</span>
+                <span className="zone-stat-val">
+                  {Object.keys(saveData?.laserProgress?.clearedLevels || {}).length} / 12
+                </span>
+              </div>
+              <div className="zone-stat-item" style={{ marginLeft: '12px' }}>
+                <span className="zone-stat-label">Stars:</span>
+                <span className="zone-stat-val" style={{ color: 'var(--sun)' }}>
+                  ★ {Object.values(saveData?.laserProgress?.clearedLevels || {}).reduce((acc, c) => acc + (c.stars || 0), 0)}
+                </span>
+              </div>
+            </div>
+
+            <div style={{ marginTop: '8px' }}>
+              <button
+                type="button"
+                className="btn-primary btn-zone-laser"
+                onClick={() => handleLaunchOrNavigate('laser-maze')}
+              >
+                <Icon name="laser" size={16} />
+                <span>PLAY LASER MAZE</span>
+              </button>
+            </div>
+          </div>
+
+          {/* Custom SVG Art: Mirror reflecting beam (zero emoji) */}
+          <div className="art-laser-chamber" aria-hidden="true" style={{ width: '80px', height: '80px', flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <svg viewBox="0 0 80 80" width="80" height="80" fill="none">
+              <rect x="4" y="4" width="72" height="72" rx="12" fill="var(--surface-2)" stroke="var(--ink)" strokeWidth="2.5" />
+              <rect x="8" y="34" width="12" height="12" rx="3" fill="var(--ink)" />
+              <line x1="20" y1="40" x2="40" y2="40" stroke="var(--sun)" strokeWidth="5" strokeLinecap="round" />
+              <line x1="32" y1="48" x2="48" y2="32" stroke="var(--ink)" strokeWidth="4.5" strokeLinecap="round" />
+              <line x1="40" y1="40" x2="40" y2="18" stroke="var(--sun)" strokeWidth="5" strokeLinecap="round" />
+              <polygon points="40,8 46,14 40,20 34,14" fill="var(--pink)" stroke="var(--ink)" strokeWidth="2" />
+            </svg>
+          </div>
+        </div>
+
+        {/* 3D. CHALLENGE TOWER WIDE CARD (NO ROTATION) */}
         <div className={`zone-card card-tower ${!isTowerUnlocked ? 'locked' : ''}`}>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', flex: 1 }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>

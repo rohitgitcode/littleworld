@@ -239,6 +239,20 @@ export default function ProfilePage({ onNotify }) {
             </div>
 
             <div className="career-stat-item">
+              <div className="icon" style={{ background: 'var(--pink)', color: 'var(--ink)' }}>
+                <Icon name="laser" size={18} />
+              </div>
+              <div>
+                <div className="num">
+                  {Object.keys(saveData?.laserProgress?.clearedLevels || {}).length} / 12 Cleared
+                </div>
+                <div className="desc">
+                  Laser Maze PB (★ {Object.values(saveData?.laserProgress?.clearedLevels || {}).reduce((acc, c) => acc + (c.stars || 0), 0)} stars) • {plays['laser'] || 0} runs
+                </div>
+              </div>
+            </div>
+
+            <div className="career-stat-item">
               <div className="icon" style={{ background: 'var(--sun)', color: 'var(--ink)' }}>
                 <Icon name="trophy" size={18} />
               </div>

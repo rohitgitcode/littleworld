@@ -54,6 +54,22 @@ export const GAME_ZONES = [
     bestTime: '--',
   },
   {
+    id: 'laser-maze',
+    title: 'Laser Maze',
+    shortDescription: 'Reflect beams to targets.',
+    fullDescription: 'Rotate mirrors to navigate laser beams around obstacles and bombs to ignite every target.',
+    iconName: 'laser',
+    badge: 'Optics',
+    accentColor: '#FF7DB8', // Zone pink
+    accentGlow: 'rgba(255, 125, 184, 0.25)',
+    difficulty: 'Puzzle',
+    status: 'available',
+    statusLabel: 'Ready to Play',
+    recommendedLevel: 1,
+    highScore: 0,
+    bestTime: '--',
+  },
+  {
     id: 'challenge-tower',
     title: 'Challenge Tower',
     shortDescription: 'Take on multiple arcade challenges.',

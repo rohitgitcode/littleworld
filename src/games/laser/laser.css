@@ -1,0 +1,554 @@
+/* ==========================================================================
+   PIXARCADE — LASER MAZE STYLES (STICKER ARCADE THEME)
+   Zone Color: Pink (#FF7DB8 / var(--pink))
+   ========================================================================== */
+
+.laser-game-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+  user-select: none;
+}
+
+/* --------------------------------------------------------------------------
+   HUD
+   -------------------------------------------------------------------------- */
+.laser-hud {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--surface);
+  border: 3px solid var(--ink);
+  border-radius: 16px;
+  padding: 10px 16px;
+  gap: 10px;
+  box-shadow: var(--shadow-card);
+  flex-wrap: wrap;
+}
+
+.laser-hud-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.laser-title-wrap {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--pink);
+}
+
+.hud-title-text {
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  font-weight: 900;
+  color: var(--ink);
+  white-space: nowrap;
+}
+
+.laser-hud-center {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.laser-stat-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.laser-stat-lbl {
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  color: var(--muted);
+}
+
+.laser-stat-val {
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  font-weight: 900;
+  color: var(--ink);
+  line-height: 1.1;
+  font-variant-numeric: tabular-nums;
+}
+
+.laser-stat-val.pink {
+  color: var(--pink);
+}
+
+.laser-hud-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn-hint-free {
+  font-family: var(--font-display);
+  font-size: 0.78rem;
+  font-weight: 800;
+  padding: 5px 12px;
+  border-radius: var(--radius-full);
+  border: 2px solid var(--ink);
+  background: var(--surface-2);
+  color: var(--muted);
+  box-shadow: 2px 2px 0 var(--ink);
+  cursor: default;
+}
+
+/* --------------------------------------------------------------------------
+   LEVEL SELECT SCREEN
+   -------------------------------------------------------------------------- */
+.laser-select-card {
+  background: var(--surface);
+  border: 3px solid var(--ink);
+  border-radius: 20px;
+  box-shadow: var(--shadow-card);
+  padding: 24px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 18px;
+  width: 100%;
+}
+
+.laser-select-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+.laser-select-title {
+  font-family: var(--font-display);
+  font-size: 1.75rem;
+  font-weight: 900;
+  color: var(--ink);
+}
+
+.laser-select-desc {
+  font-size: 0.88rem;
+  color: var(--muted);
+  max-width: 480px;
+  line-height: 1.45;
+}
+
+.laser-levels-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  width: 100%;
+  max-width: 520px;
+  margin: 4px 0;
+}
+
+@media (max-width: 420px) {
+  .laser-levels-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+  }
+}
+
+.level-tile {
+  background: var(--surface-2);
+  border: 3px solid var(--ink);
+  border-radius: 14px;
+  box-shadow: 3px 3px 0 var(--ink);
+  padding: 12px 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  cursor: pointer;
+  transition: transform 100ms ease, box-shadow 100ms ease;
+  min-height: 84px;
+}
+
+.level-tile:active:not(.locked) {
+  transform: translate(2px, 2px);
+  box-shadow: 1px 1px 0 var(--ink);
+}
+
+.level-tile.cleared {
+  background: var(--surface);
+  border-color: var(--ink);
+}
+
+.level-tile.current {
+  border-color: var(--pink);
+  box-shadow: 4px 4px 0 var(--ink);
+  background: var(--surface);
+}
+
+.level-tile.locked {
+  opacity: 0.5;
+  cursor: not-allowed;
+  box-shadow: 2px 2px 0 var(--ink);
+}
+
+.level-tile-num {
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+  font-weight: 900;
+  color: var(--ink);
+  line-height: 1;
+}
+
+.level-tile-stars {
+  font-size: 0.85rem;
+  color: var(--sun);
+  letter-spacing: 1px;
+}
+
+.level-tile-par {
+  font-size: 0.65rem;
+  font-weight: 800;
+  color: var(--muted);
+  text-transform: uppercase;
+}
+
+/* --------------------------------------------------------------------------
+   PLAYING ARENA & BOARD
+   -------------------------------------------------------------------------- */
+.laser-arena-card {
+  background: var(--surface);
+  border: 3px solid var(--ink);
+  border-radius: 20px;
+  box-shadow: var(--shadow-card);
+  padding: 18px 14px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  width: 100%;
+}
+
+.laser-level-banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 440px;
+  padding: 0 4px;
+}
+
+.laser-level-info {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.laser-level-name {
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  font-weight: 900;
+  color: var(--ink);
+}
+
+.laser-par-chip {
+  font-family: var(--font-display);
+  font-size: 0.76rem;
+  font-weight: 800;
+  padding: 4px 10px;
+  border-radius: var(--radius-full);
+  border: 2px solid var(--ink);
+  background: var(--surface-2);
+  color: var(--muted);
+}
+
+/* --------------------------------------------------------------------------
+   LASER BOARD (STICKER ARCADE PANEL)
+   -------------------------------------------------------------------------- */
+.laser-board-wrapper {
+  position: relative;
+  display: inline-block;
+  background: var(--surface-2);
+  border: 3px solid var(--ink);
+  border-radius: 16px;
+  box-shadow: 4px 4px 0 var(--ink);
+  padding: 6px;
+  touch-action: none;
+  user-select: none;
+  max-width: 100%;
+}
+
+.laser-grid {
+  display: grid;
+  gap: 4px;
+  position: relative;
+}
+
+.laser-cell {
+  position: relative;
+  width: 50px;
+  height: 50px;
+  background: var(--surface);
+  border: 2px solid var(--ink);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+@media (max-width: 380px) {
+  .laser-cell {
+    width: 46px;
+    height: 46px;
+  }
+}
+
+/* Wall cell */
+.laser-cell.cell-wall {
+  background: color-mix(in srgb, var(--ink) 25%, var(--surface-2));
+  background-image: repeating-linear-gradient(
+    45deg,
+    transparent,
+    transparent 6px,
+    color-mix(in srgb, var(--ink) 12%, transparent) 6px,
+    color-mix(in srgb, var(--ink) 12%, transparent) 12px
+  );
+}
+
+/* SVG Beam Overlay: Flat thick sun-yellow line segments */
+.laser-beam-svg-overlay {
+  position: absolute;
+  inset: 6px;
+  width: calc(100% - 12px);
+  height: calc(100% - 12px);
+  pointer-events: none;
+  z-index: 10;
+}
+
+.beam-line {
+  stroke: var(--sun);
+  stroke-width: 7;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  fill: none;
+}
+
+/* Emitter */
+.laser-emitter-box {
+  width: 28px;
+  height: 28px;
+  background: var(--ink);
+  border-radius: 6px;
+  border: 2px solid var(--surface);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--sun);
+  z-index: 12;
+  box-shadow: 2px 2px 0 var(--ink);
+}
+
+.laser-emitter-box.dir-U { transform: rotate(-90deg); }
+.laser-emitter-box.dir-D { transform: rotate(90deg); }
+.laser-emitter-box.dir-L { transform: rotate(180deg); }
+.laser-emitter-box.dir-R { transform: rotate(0deg); }
+
+/* Mirror Button & Bar */
+.laser-mirror-btn {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border: none;
+  background: transparent;
+  padding: 0;
+  position: relative;
+  z-index: 15;
+  touch-action: manipulation;
+}
+
+.laser-mirror-btn.locked {
+  cursor: not-allowed;
+}
+
+.laser-mirror-bar {
+  width: 78%;
+  height: 8px;
+  background: var(--ink);
+  border: 2px solid var(--surface);
+  border-radius: 4px;
+  box-shadow: 2px 2px 0 var(--ink);
+  transition: transform 180ms cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.laser-mirror-btn.slash .laser-mirror-bar {
+  transform: rotate(-45deg);
+}
+
+.laser-mirror-btn.backslash .laser-mirror-bar {
+  transform: rotate(45deg);
+}
+
+.locked-pin {
+  position: absolute;
+  top: 3px;
+  right: 3px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--muted);
+  border: 1.5px solid var(--ink);
+}
+
+/* Target Ring */
+.laser-target-ring {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 3px solid var(--ink);
+  background: var(--surface);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 180ms ease;
+  box-shadow: 2px 2px 0 var(--ink);
+  z-index: 12;
+  color: var(--muted);
+}
+
+.laser-target-ring.hit {
+  background: var(--pink);
+  color: #1E1B2E;
+  transform: scale(1.1);
+  box-shadow: 3px 3px 0 var(--ink);
+}
+
+/* Bomb Circle */
+.laser-bomb-circle {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--tomato);
+  border: 2.5px solid var(--ink);
+  box-shadow: 2px 2px 0 var(--ink);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #FFFFFF;
+  z-index: 12;
+}
+
+.laser-bomb-circle.hit-shake {
+  animation: bombShake 150ms ease-in-out;
+}
+
+@keyframes bombShake {
+  0% { transform: translate(0, 0); }
+  25% { transform: translate(-3px, 2px); }
+  50% { transform: translate(3px, -2px); }
+  75% { transform: translate(-2px, -2px); }
+  100% { transform: translate(0, 0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .laser-bomb-circle.hit-shake {
+    animation: none;
+  }
+}
+
+/* Controls Bar */
+.laser-controls-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  width: 100%;
+  max-width: 440px;
+  margin-top: 6px;
+}
+
+/* --------------------------------------------------------------------------
+   LEVEL COMPLETE MODAL OVERLAY
+   -------------------------------------------------------------------------- */
+.laser-win-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(30, 27, 46, 0.75);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  z-index: 9999;
+  animation: fadeIn 150ms ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.laser-win-card {
+  background: var(--surface);
+  border: 3px solid var(--ink);
+  border-radius: 20px;
+  box-shadow: 6px 6px 0 var(--ink);
+  padding: 28px 24px;
+  width: 100%;
+  max-width: 380px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 14px;
+}
+
+.laser-win-stars {
+  font-size: 2.4rem;
+  color: var(--sun);
+  letter-spacing: 4px;
+  text-shadow: 2px 2px 0 var(--ink);
+}
+
+.laser-win-stats-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  width: 100%;
+  margin: 4px 0;
+}
+
+.laser-win-stat {
+  background: var(--surface-2);
+  border: 2px solid var(--ink);
+  border-radius: 12px;
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.laser-win-stat-val {
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+  font-weight: 900;
+  color: var(--ink);
+}
+
+.laser-win-stat-lbl {
+  font-size: 0.72rem;
+  font-weight: 800;
+  color: var(--muted);
+  text-transform: uppercase;
+}
+
+.laser-win-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+  margin-top: 6px;
+}

@@ -15,6 +15,7 @@ const ReactionGame = lazy(() => import('./games/reaction/ReactionGame'));
 const MemoryMazeGame = lazy(() => import('./games/memory/MemoryMazeGame'));
 const PatternPanicGame = lazy(() => import('./games/pattern/PatternPanicGame'));
 const ChallengeTowerGame = lazy(() => import('./games/tower/ChallengeTowerGame'));
+const LaserMazeGame = lazy(() => import('./games/laser/LaserMazeGame'));
 
 /**
  * Little Big World — Main Application Component (Mobile-First Arcade)
@@ -111,6 +112,13 @@ export default function App() {
       return (
         <Suspense fallback={<div className="loading-fallback">Loading Challenge Tower...</div>}>
           <ChallengeTowerGame onExit={handleExitGame} />
+        </Suspense>
+      );
+    }
+    if (activeGame === 'laser-maze' || activeGame === 'laser') {
+      return (
+        <Suspense fallback={<div className="loading-fallback">Loading Laser Maze...</div>}>
+          <LaserMazeGame onExit={handleExitGame} />
         </Suspense>
       );
     }

@@ -37,6 +37,9 @@ const loadSaveData = () => {
           challenges: { ...DEFAULT_SAVE.challenges, ...(parsed.challenges || {}) },
           cosmetics: { ...DEFAULT_SAVE.cosmetics, ...(parsed.cosmetics || {}) },
           settings: { ...DEFAULT_SAVE.settings, ...(parsed.settings || {}) },
+          laserProgress: {
+            clearedLevels: { ...(parsed.laserProgress?.clearedLevels || {}) },
+          },
           onboardingCompleted: Boolean(parsed.onboardingCompleted),
           processedRunIds: Array.isArray(parsed.processedRunIds) ? parsed.processedRunIds : [],
         };
@@ -94,8 +97,16 @@ export function ProgressProvider({ children }) {
     const today = getLocalDateString();
     const thisWeek = getISOWeekString();
 
+    // Check if laser level is a replay
+    const effectiveStats = { ...stats };
+    if ((game === 'laser' || game === 'laser-maze') && effectiveStats.level) {
+      if (data.laserProgress?.clearedLevels?.[effectiveStats.level]) {
+        effectiveStats.isReplay = true;
+      }
+    }
+
     // 1. Calculate XP & Coin rewards
-    const { xpEarned, coinsEarned } = calculateRewards(game, stats);
+    const { xpEarned, coinsEarned } = calculateRewards(game, effectiveStats);
 
     // 2. Calculate leveling with multi-level burst support
     const levelRes = calculateLevelUp(data.level, data.currentLevelXp, xpEarned);
@@ -104,7 +115,7 @@ export function ProgressProvider({ children }) {
     let newBest = false;
     const currentPBs = { ...data.personalBests };
     const gamePB = { ...(currentPBs[game] || {}) };
-    const runScore = stats?.score || 0;
+    const runScore = effectiveStats?.score || 0;
 
     if (runScore > (gamePB.score || 0)) {
       newBest = true;
@@ -112,25 +123,49 @@ export function ProgressProvider({ children }) {
     }
 
     if (game === 'reaction-reactor') {
-      const bestRt = stats?.bestRt || 0;
+      const bestRt = effectiveStats?.bestRt || 0;
       if (bestRt > 0 && (!gamePB.bestRt || bestRt < gamePB.bestRt)) {
         gamePB.bestRt = bestRt;
       }
-      gamePB.accuracy = Math.max(gamePB.accuracy || 0, stats?.accuracy || 0);
+      gamePB.accuracy = Math.max(gamePB.accuracy || 0, effectiveStats?.accuracy || 0);
     } else if (game === 'memory-maze') {
-      const longest = stats?.longest || stats?.level || 0;
+      const longest = effectiveStats?.longest || effectiveStats?.level || 0;
       gamePB.longest = Math.max(gamePB.longest || 0, longest);
-      gamePB.level = Math.max(gamePB.level || 0, stats?.level || 0);
+      gamePB.level = Math.max(gamePB.level || 0, effectiveStats?.level || 0);
     } else if (game === 'pattern-panic') {
-      gamePB.correct = Math.max(gamePB.correct || 0, stats?.correct || 0);
-      gamePB.accuracy = Math.max(gamePB.accuracy || 0, stats?.accuracy || 0);
+      gamePB.correct = Math.max(gamePB.correct || 0, effectiveStats?.correct || 0);
+      gamePB.accuracy = Math.max(gamePB.accuracy || 0, effectiveStats?.accuracy || 0);
     } else if (game === 'tower' || game === 'challenge-tower') {
       const rankOrder = { D: 1, C: 2, B: 3, A: 4, S: 5 };
-      if ((rankOrder[stats?.rank] || 0) > (rankOrder[gamePB.rank] || 0)) {
-        gamePB.rank = stats?.rank;
+      if ((rankOrder[effectiveStats?.rank] || 0) > (rankOrder[gamePB.rank] || 0)) {
+        gamePB.rank = effectiveStats?.rank;
       }
+    } else if (game === 'laser' || game === 'laser-maze') {
+      // Laser PBs tracked in laserProgress
     }
     currentPBs[game] = gamePB;
+
+    // Laser progress handling
+    let updatedLaserProgress = data.laserProgress || { clearedLevels: {} };
+    if ((game === 'laser' || game === 'laser-maze') && effectiveStats.level) {
+      const lvl = effectiveStats.level;
+      const prev = updatedLaserProgress.clearedLevels?.[lvl];
+      const newStars = Math.max(prev?.stars || 0, effectiveStats.stars || 1);
+      const newMoves = prev?.moves ? Math.min(prev.moves, effectiveStats.moves) : effectiveStats.moves;
+      updatedLaserProgress = {
+        ...updatedLaserProgress,
+        clearedLevels: {
+          ...updatedLaserProgress.clearedLevels,
+          [lvl]: { stars: newStars, moves: newMoves },
+        },
+      };
+      const clearedCount = Object.keys(updatedLaserProgress.clearedLevels).length;
+      const starsSum = Object.values(updatedLaserProgress.clearedLevels).reduce((acc, c) => acc + (c.stars || 0), 0);
+      currentPBs['laser'] = {
+        clearedLevels: clearedCount,
+        totalStars: starsSum,
+      };
+    }
 
     // 4. Update play counts
     const updatedPlays = {
@@ -220,6 +255,12 @@ export function ProgressProvider({ children }) {
       if (ach.id === 'streak_3' && newCurrentStreak >= 3) unlock = true;
       if (ach.id === 'tower_climber' && (game === 'tower' || game === 'challenge-tower')) unlock = true;
       if (ach.id === 'tower_s_rank' && (game === 'tower' || game === 'challenge-tower') && stats?.rank === 'S') unlock = true;
+      if (ach.id === 'beam_starter' && updatedLaserProgress.clearedLevels?.[1]) unlock = true;
+      if (ach.id === 'mirror_master' && Object.keys(updatedLaserProgress.clearedLevels || {}).length >= 12) unlock = true;
+      if (ach.id === 'perfect_par') {
+        const threeStarCount = Object.values(updatedLaserProgress.clearedLevels || {}).filter((c) => c.stars >= 3).length;
+        if (threeStarCount >= 5) unlock = true;
+      }
 
       if (unlock) {
         updatedAchievements[ach.id] = { unlocked: true, unlockedAt: today };
@@ -241,6 +282,7 @@ export function ProgressProvider({ children }) {
       gamesPlayed: newGamesPlayed,
       plays: updatedPlays,
       personalBests: currentPBs,
+      laserProgress: updatedLaserProgress,
       streak: {
         current: newCurrentStreak,
         best: newBestStreak,
@@ -437,3 +479,6 @@ export function useProgress() {
   }
   return context;
 }
+
+// eslint-disable-next-line react-refresh/only-export-components
+export const useProgression = useProgress;
