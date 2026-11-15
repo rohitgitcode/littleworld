@@ -21,14 +21,13 @@ export default function Header({
           onClick={() => onNavigate('home')}
           role="button"
           tabIndex={0}
-          title="Little Big World Home"
+          title="Pixarcade Home"
         >
           <div className="header-brand-icon">
             <Icon name="controller" size={18} />
           </div>
           <div className="header-brand-text">
-            <span className="header-brand-title">Little Big World</span>
-            <span className="header-brand-sub">Arcade Edition</span>
+            <span className="header-brand-title">Pixarcade</span>
           </div>
         </div>
 

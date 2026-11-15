@@ -48,7 +48,7 @@ export default function ProfilePage({ onNotify }) {
       deferredPrompt.prompt();
       const { outcome } = await deferredPrompt.userChoice;
       if (outcome === 'accepted') {
-        onNotify('App Installed', 'Little Big World added to your home screen!');
+        onNotify('App Installed', 'Pixarcade added to your home screen!');
         setIsInstalled(true);
       }
       setDeferredPrompt(null);
@@ -390,6 +390,21 @@ export default function ProfilePage({ onNotify }) {
           </div>
         </div>
       </div>
+
+      {/* Creator Credit */}
+      <footer
+        className="profile-creator-credit"
+        style={{
+          textAlign: 'center',
+          fontSize: '14px',
+          fontWeight: 700,
+          color: 'var(--muted)',
+          paddingTop: '20px',
+          paddingBottom: '100px',
+        }}
+      >
+        Made by Rohit
+      </footer>
     </div>
   );
 }

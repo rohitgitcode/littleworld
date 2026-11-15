@@ -1,6 +1,6 @@
 {
-  "name": "Little Big World",
-  "short_name": "LittleWorld",
+  "name": "Pixarcade",
+  "short_name": "Pixarcade",
   "description": "Handmade indie arcade challenge games — Sticker Edition",
   "start_url": "/",
   "display": "standalone",

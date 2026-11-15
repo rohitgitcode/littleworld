@@ -143,7 +143,7 @@ export default function SettingsPage({ onNotify }) {
           </div>
 
           <div style={{ paddingTop: '10px', borderTop: '1px solid var(--border-subtle)', fontSize: '0.78rem', color: 'var(--text-muted)' }}>
-            <div>Engine: Little Big World • React + Vite v8.3</div>
+            <div>Engine: Pixarcade • React + Vite v8.3</div>
             <div>Build: Step 3 — Visual Polish + Memory Maze & Pattern Panic</div>
           </div>
         </section>

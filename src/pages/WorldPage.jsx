@@ -55,7 +55,7 @@ export default function WorldPage({ onNotify, onLaunchGame }) {
           <span>Sector Alpha • 3 Active Zones</span>
         </span>
         <h2 style={{ fontSize: '1.25rem', fontWeight: 800, marginBottom: '4px' }}>
-          Little Big World — Challengers Grid
+          Pixarcade — Challengers Grid
         </h2>
         <p style={{ fontSize: '0.86rem', color: 'var(--text-secondary)', maxWidth: '540px' }}>
           Conquer active game zones to test your reflexes and analytical speed in single-player arcade trials.

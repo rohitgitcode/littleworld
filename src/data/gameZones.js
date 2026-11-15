@@ -111,7 +111,7 @@ export const RECENT_ACTIVITIES = [
   {
     id: 1,
     iconName: 'gamepad',
-    title: 'Welcome to Little Big World',
+    title: 'Welcome to Pixarcade',
     detail: 'Your arcade challenger license is active.',
     time: 'Just now',
     type: 'system',
@@ -141,7 +141,7 @@ export const SAMPLE_ACHIEVEMENTS = [
   {
     id: 'ach-first-step',
     title: 'First Steps',
-    description: 'Enter the Little Big World arcade for the first time.',
+    description: 'Enter the Pixarcade arcade for the first time.',
     iconName: 'star',
     reward: 50,
     unlocked: true,

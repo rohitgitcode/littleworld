@@ -32,7 +32,7 @@ export default function OnboardingModal({ onComplete }) {
       }}
       role="dialog"
       aria-modal="true"
-      aria-label="Welcome to Little Big World"
+      aria-label="Welcome to Pixarcade"
     >
       <div
         className="onboarding-card"
@@ -74,7 +74,7 @@ export default function OnboardingModal({ onComplete }) {
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '12px' }}>
             <Mascot state="happy" size={76} />
             <h2 style={{ fontSize: '1.45rem', fontWeight: 800, color: 'var(--text)' }}>
-              Welcome to Little Big World!
+              Welcome to Pixarcade!
             </h2>
             <p style={{ fontSize: '0.9rem', color: 'var(--muted)', lineHeight: 1.45 }}>
               A handcrafted indie sticker arcade where you test your reaction reflexes, pattern puzzles, and sequence memory.

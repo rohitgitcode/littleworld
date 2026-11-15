@@ -51,8 +51,7 @@ export default function Sidebar({
             <Icon name="controller" size={20} />
           </div>
           <div className="brand-text">
-            <span className="brand-title">Little Big World</span>
-            <span className="brand-subtitle">Arcade Edition</span>
+            <span className="brand-title">Pixarcade</span>
           </div>
         </div>
 
