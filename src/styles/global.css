@@ -1,0 +1,353 @@
+/* ==========================================================================
+   LITTLE BIG WORLD — STICKER ARCADE TOKENS & FOUNDATION
+   ========================================================================== */
+
+@font-face {
+  font-family: 'Fredoka';
+  src: url('/fonts/Fredoka.woff2') format('woff2');
+  font-weight: 500 800;
+  font-display: swap;
+}
+
+:root {
+  /* Core Sticker Arcade Palette (Light Default) */
+  --bg: #FFF3D6;
+  --surface: #FFFFFF;
+  --surface-2: #FFF9EA;
+  --ink: #1E1B2E;
+  --tomato: #FF5C4D;
+  --teal: #1FBF9F;
+  --violet: #8A63FF;
+  --sun: #FFC21A;
+  --pink: #FF7DB8;
+
+  --text: var(--ink);
+  --muted: color-mix(in srgb, var(--ink) 70%, transparent);
+
+  /* Zone Colors */
+  --zone-reaction: var(--tomato);
+  --zone-memory: var(--teal);
+  --zone-pattern: var(--violet);
+  --zone-tower: var(--sun);
+
+  /* Aliases for backwards compatibility */
+  --yellow: var(--sun);
+  --yellow-dark: var(--ink);
+  --cyan: var(--teal);
+  --coral: var(--tomato);
+  --coral-dark: var(--ink);
+  --bg-deep-space: var(--bg);
+  --bg-dark-navy: var(--surface);
+  --bg-panel: var(--surface);
+  --bg-panel-hover: var(--surface-2);
+  --bg-panel-card: var(--surface);
+  --bg-panel-muted: var(--surface-2);
+
+  --neon-cyan: var(--teal);
+  --neon-cyan-glow: transparent;
+  --neon-cyan-dim: var(--surface-2);
+  --electric-purple: var(--violet);
+  --electric-purple-glow: transparent;
+  --electric-purple-dim: var(--surface-2);
+  --neon-pink: var(--pink);
+  --arcade-yellow: var(--sun);
+  --arcade-green: var(--teal);
+
+  --text-primary: var(--ink);
+  --text-secondary: var(--muted);
+  --text-muted: var(--muted);
+  --text-dim: var(--muted);
+
+  --border-subtle: var(--ink);
+  --border-medium: var(--ink);
+  --border-active: var(--sun);
+
+  /* Geometry & Radii */
+  --radius-xs: 8px;
+  --radius-sm: 10px;
+  --radius-md: 14px;
+  --radius-lg: 16px;
+  --radius-xl: 20px;
+  --radius-full: 9999px;
+
+  /* Hard Sticker Shadows (No blurs, no glowing shadows) */
+  --shadow-subtle: 3px 3px 0 var(--ink);
+  --shadow-card: 4px 4px 0 var(--ink);
+  --shadow-btn: 3px 3px 0 var(--ink);
+
+  /* Dimensions */
+  --header-height: 62px;
+  --bottom-bar-height: 66px;
+
+  /* Typography */
+  --font-display: 'Fredoka', 'Lilita One', system-ui, -apple-system, sans-serif;
+  --font-body: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-family: var(--font-body);
+}
+
+/* Theme: Night Arcade (Dark ink bg, high-contrast cream borders, same accents) */
+[data-theme='night-arcade'] {
+  --bg: #1E1B2E;
+  --surface: #28243C;
+  --surface-2: #342F4D;
+  --ink: #FFF3D6;
+  --text: var(--ink);
+  --muted: color-mix(in srgb, var(--ink) 70%, transparent);
+
+  --tomato: #FF6E60;
+  --teal: #2FE4BE;
+  --violet: #A282FF;
+  --sun: #FFCC33;
+  --pink: #FF94C7;
+
+  --zone-reaction: var(--tomato);
+  --zone-memory: var(--teal);
+  --zone-pattern: var(--violet);
+  --zone-tower: var(--sun);
+
+  --yellow: var(--sun);
+  --cyan: var(--teal);
+  --coral: var(--tomato);
+}
+
+/* Cyberpunk & Synthwave fallbacks maintained with sticker styling */
+[data-theme='cyberpunk'] {
+  --bg: #10211E;
+  --surface: #17322D;
+  --surface-2: #1E3F39;
+  --ink: #E0FFF8;
+  --text: var(--ink);
+  --muted: #84C5B7;
+  --tomato: #FF5A5F;
+  --teal: #1FBF9F;
+  --violet: #8A63FF;
+  --sun: #FFC21A;
+}
+
+[data-theme='synthwave'] {
+  --bg: #2B1630;
+  --surface: #3D1E45;
+  --surface-2: #4F2759;
+  --ink: #FFE8FF;
+  --text: var(--ink);
+  --muted: #CBA4D4;
+  --tomato: #FF5A5F;
+  --teal: #1FBF9F;
+  --violet: #A67BFF;
+  --sun: #FFC21A;
+}
+
+/* Reset & Mobile-First Foundation */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+
+html {
+  font-size: 16px;
+  background-color: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  line-height: 1.5;
+  overflow-x: hidden;
+  height: 100%;
+}
+
+body {
+  background-color: var(--bg);
+  background-image: radial-gradient(color-mix(in srgb, var(--ink) 6%, transparent) 1.5px, transparent 1.5px);
+  background-size: 20px 20px;
+  color: var(--text);
+  min-height: 100%;
+  width: 100%;
+  overflow-x: hidden;
+  position: relative;
+  font-size: 1rem;
+}
+
+#root {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+/* Accessible visible focus ring */
+*:focus-visible {
+  outline: 3px dashed var(--ink) !important;
+  outline-offset: 3px !important;
+}
+
+/* Headings & Display Typography */
+h1, h2, h3, h4, h5, h6,
+.display-title,
+.arcade-font {
+  font-family: var(--font-display);
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  color: var(--text);
+}
+
+h1 { font-size: 1.85rem; }
+h2 { font-size: 1.45rem; }
+h3 { font-size: 1.2rem; }
+
+/* Chunky 16px Sticker Buttons */
+button {
+  font-family: inherit;
+  border: none;
+  background: none;
+  cursor: pointer;
+}
+
+.btn-primary,
+.btn-arcade.primary,
+.play-cta-btn {
+  background: var(--sun);
+  color: #1E1B2E;
+  border: 3px solid var(--ink);
+  border-radius: 16px;
+  padding: 12px 22px;
+  font-family: var(--font-display);
+  font-size: 1rem;
+  font-weight: 800;
+  min-height: 48px;
+  min-width: 48px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  box-shadow: 4px 4px 0 var(--ink);
+  transition: transform 100ms ease, box-shadow 100ms ease;
+  user-select: none;
+  touch-action: manipulation;
+}
+
+.btn-primary:active,
+.btn-arcade.primary:active,
+.play-cta-btn:active {
+  transform: translate(3px, 3px);
+  box-shadow: 0 0 0 var(--ink);
+}
+
+.btn-secondary,
+.btn-arcade.secondary {
+  background: var(--surface);
+  color: var(--text);
+  border: 3px solid var(--ink);
+  border-radius: 16px;
+  padding: 12px 20px;
+  font-family: var(--font-display);
+  font-size: 0.95rem;
+  font-weight: 800;
+  min-height: 48px;
+  min-width: 48px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  box-shadow: 3px 3px 0 var(--ink);
+  transition: transform 100ms ease, box-shadow 100ms ease;
+  user-select: none;
+  touch-action: manipulation;
+}
+
+.btn-secondary:active,
+.btn-arcade.secondary:active {
+  transform: translate(2px, 2px);
+  box-shadow: 0 0 0 var(--ink);
+}
+
+/* Zone Colored Buttons */
+.btn-zone-reaction {
+  background: var(--tomato);
+  color: #FFFFFF;
+}
+
+.btn-zone-memory {
+  background: var(--teal);
+  color: #1E1B2E;
+}
+
+.btn-zone-pattern {
+  background: var(--violet);
+  color: #FFFFFF;
+}
+
+/* Subtle Handcrafted Sticker Card Tilts (±1deg on 2-3 cards max) */
+.tilt-left {
+  transform: rotate(-0.8deg);
+}
+
+.tilt-right {
+  transform: rotate(0.8deg);
+}
+
+/* Flat Sticker Badges */
+.badge-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: var(--radius-full);
+  font-size: 0.76rem;
+  font-weight: 800;
+  font-family: var(--font-display);
+  border: 2px solid var(--ink);
+  box-shadow: 2px 2px 0 var(--ink);
+}
+
+.badge-yellow {
+  background: var(--sun);
+  color: #1E1B2E;
+}
+
+.badge-cyan,
+.badge-teal,
+.badge-green {
+  background: var(--teal);
+  color: #1E1B2E;
+}
+
+.badge-purple {
+  background: var(--violet);
+  color: #FFFFFF;
+}
+
+.badge-coral,
+.badge-tomato {
+  background: var(--tomato);
+  color: #FFFFFF;
+}
+
+.badge-pink {
+  background: var(--pink);
+  color: #1E1B2E;
+}
+
+/* Reward Pop Keyframe */
+@keyframes rewardPop {
+  0% { transform: scale(0.9); opacity: 0; }
+  60% { transform: scale(1.06); opacity: 1; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+.reward-pop {
+  animation: rewardPop 200ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Prefers-Reduced-Motion */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    transform: none !important;
+  }
+}

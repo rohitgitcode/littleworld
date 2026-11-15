@@ -1,0 +1,258 @@
+/* ==========================================================================
+   LITTLE BIG WORLD — CHALLENGE TOWER STYLES (STICKER ARCADE)
+   ========================================================================== */
+
+.tower-game-container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+/* Tower Header HUD */
+.tower-hud {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--surface);
+  border: 3px solid var(--ink);
+  border-radius: var(--radius-lg);
+  padding: 12px 18px;
+  box-shadow: 4px 4px 0 var(--ink);
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.tower-hud-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.tower-hud-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: var(--sun);
+  color: var(--ink);
+  font-family: var(--font-display);
+  font-size: 0.85rem;
+  font-weight: 800;
+  border: 2px solid var(--ink);
+}
+
+.tower-hud-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.tower-running-score {
+  font-family: var(--font-display);
+  font-size: 1rem;
+  font-weight: 800;
+  color: var(--ink);
+}
+
+.tower-running-val {
+  color: var(--violet);
+  font-size: 1.25rem;
+  margin-left: 4px;
+}
+
+.tower-quit-btn {
+  padding: 6px 14px;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  font-weight: 800;
+  font-family: var(--font-display);
+  color: var(--ink);
+  background: var(--tomato);
+  border: 2px solid var(--ink);
+  box-shadow: 2px 2px 0 var(--ink);
+  min-height: 40px;
+  cursor: pointer;
+  transition: transform 0.1s ease, box-shadow 0.1s ease;
+}
+
+.tower-quit-btn:active {
+  transform: translate(2px, 2px);
+  box-shadow: 0 0 0 var(--ink);
+}
+
+/* 4-Floor Progress Bar */
+.tower-floors-progress-bar {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  width: 100%;
+}
+
+.tower-floor-step {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  background: var(--surface);
+  border: 3px solid var(--ink);
+  border-radius: 14px;
+  padding: 8px 10px;
+  box-shadow: 3px 3px 0 var(--ink);
+  transition: transform 0.1s ease;
+}
+
+.tower-floor-step.active {
+  background: var(--sun);
+  transform: translate(-1px, -1px);
+  box-shadow: 4px 4px 0 var(--ink);
+}
+
+.tower-floor-step.completed {
+  background: var(--teal);
+}
+
+.tower-floor-num {
+  font-family: var(--font-display);
+  font-size: 0.8rem;
+  font-weight: 800;
+  color: var(--ink);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.tower-floor-name {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--ink);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Floor Intro / Interstitial Card */
+.tower-card {
+  background: var(--surface);
+  border: 3px solid var(--ink);
+  border-radius: var(--radius-lg);
+  padding: 28px 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 16px;
+  box-shadow: 6px 6px 0 var(--ink);
+}
+
+.tower-floor-hero-badge {
+  width: 68px;
+  height: 68px;
+  border-radius: 20px;
+  background: var(--sun);
+  color: var(--ink);
+  border: 3px solid var(--ink);
+  box-shadow: 3px 3px 0 var(--ink);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.tower-floor-title {
+  font-size: 1.6rem;
+  font-family: var(--font-display);
+  font-weight: 800;
+  color: var(--ink);
+}
+
+.tower-floor-desc {
+  font-size: 0.92rem;
+  color: var(--muted);
+  max-width: 480px;
+}
+
+.tower-floor-target-box {
+  background: var(--bg);
+  border: 3px dashed var(--ink);
+  border-radius: 12px;
+  padding: 12px 18px;
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: var(--ink);
+  max-width: 420px;
+}
+
+/* Summit Results Screen */
+.tower-summit-card {
+  background: var(--surface);
+  border: 3px solid var(--ink);
+  border-radius: var(--radius-lg);
+  padding: 32px 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 18px;
+  box-shadow: 6px 6px 0 var(--ink);
+}
+
+.tower-rank-display {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.tower-rank-badge {
+  font-family: var(--font-display);
+  font-size: 3.5rem;
+  font-weight: 900;
+  line-height: 1;
+  color: var(--ink);
+}
+
+.tower-rank-label {
+  font-family: var(--font-display);
+  font-size: 0.9rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+}
+
+.tower-breakdown-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+  max-width: 480px;
+  margin: 8px 0;
+}
+
+.tower-breakdown-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--bg);
+  border: 2px solid var(--ink);
+  box-shadow: 2px 2px 0 var(--ink);
+  border-radius: 12px;
+  padding: 10px 14px;
+  font-size: 0.88rem;
+  color: var(--ink);
+}
+
+.tower-breakdown-row-name {
+  font-weight: 800;
+  font-family: var(--font-display);
+}
+
+.tower-breakdown-row-scores {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-display);
+  font-weight: 800;
+}

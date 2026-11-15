@@ -1,0 +1,379 @@
+/* ==========================================================================
+   LITTLE BIG WORLD — PATTERN PANIC STYLES (STICKER ARCADE)
+   ========================================================================== */
+
+.pattern-game-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  width: 100%;
+  max-width: 760px;
+  margin: 0 auto;
+  user-select: none;
+}
+
+/* --------------------------------------------------------------------------
+   HUD
+   -------------------------------------------------------------------------- */
+.pattern-hud {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--surface);
+  border: 3px solid var(--ink);
+  box-shadow: 4px 4px 0 var(--ink);
+  border-radius: var(--radius-md);
+  padding: 10px 14px;
+  gap: 8px;
+}
+
+.pattern-hud-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  flex-shrink: 1;
+}
+
+.hud-exit-btn {
+  font-family: var(--font-display);
+  font-size: 0.8rem;
+  font-weight: 800;
+  color: var(--ink);
+  background: var(--surface-2);
+  border: 2px solid var(--ink);
+  padding: 4px 10px;
+  border-radius: var(--radius-full);
+  box-shadow: 2px 2px 0 var(--ink);
+  min-height: 36px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.hud-exit-btn:active {
+  transform: translate(2px, 2px);
+  box-shadow: 0 0 0 var(--ink);
+}
+
+.pattern-title-wrap {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 1rem;
+  color: var(--ink);
+  min-width: 0;
+}
+
+.hud-title-text {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 130px;
+}
+
+.pattern-hud-center {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-shrink: 0;
+}
+
+.pattern-stat-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.pattern-stat-lbl {
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  color: var(--muted);
+}
+
+.pattern-stat-val {
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+  font-weight: 800;
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+  line-height: 1.1;
+}
+
+.pattern-stat-val.score {
+  color: var(--violet);
+}
+
+.pattern-stat-val.urgent {
+  color: var(--tomato);
+  animation: bounceUrgent 0.5s infinite alternate ease-in-out;
+}
+
+@keyframes bounceUrgent {
+  0% { transform: scale(1); }
+  100% { transform: scale(1.15); }
+}
+
+.pattern-hud-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.pattern-mini-stats {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.pattern-mini-stats .mini-stat {
+  font-family: var(--font-display);
+  font-size: 0.85rem;
+  font-weight: 800;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.pattern-mini-stats .mini-stat strong {
+  font-size: 1.15rem;
+  line-height: 1;
+}
+
+.mini-stat.hits {
+  color: var(--teal);
+}
+
+.mini-stat.misses {
+  color: var(--tomato);
+}
+
+/* Thin time bar with transform: scaleX */
+.game-time-bar-track {
+  width: 100%;
+  height: 5px;
+  background: var(--surface-2);
+  border: 2px solid var(--ink);
+  border-radius: 999px;
+  overflow: hidden;
+  margin-top: -6px;
+  margin-bottom: 2px;
+}
+
+.game-time-bar-fill {
+  width: 100%;
+  height: 100%;
+  background: var(--teal);
+  transform-origin: left center;
+  transition: transform 1s linear, background-color 0.2s ease;
+}
+
+.game-time-bar-fill.urgent {
+  background: var(--tomato);
+}
+
+/* --------------------------------------------------------------------------
+   PUZZLE BOARD ARENA
+   -------------------------------------------------------------------------- */
+.pattern-arena {
+  background: var(--surface);
+  border: 3px solid var(--ink);
+  border-radius: var(--radius-lg);
+  box-shadow: 4px 4px 0 var(--ink);
+  padding: 24px 18px;
+  display: flex;
+  flex-direction: column;
+  touch-action: none;
+  align-items: center;
+  position: relative;
+  min-height: 360px;
+}
+
+.pattern-category-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 580px;
+  min-height: 36px;
+  margin-bottom: 20px;
+}
+
+.pattern-feedback-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--surface-2);
+  border: 2px solid var(--ink);
+  border-radius: 999px;
+  padding: 2px 12px 2px 4px;
+  box-shadow: 2px 2px 0 var(--ink);
+}
+
+.pattern-feedback-explanation {
+  font-family: var(--font-display);
+  font-size: 0.84rem;
+  font-weight: 800;
+  color: var(--ink);
+}
+
+/* Sequence Row of Tiles */
+.pattern-sequence-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 28px;
+  width: 100%;
+  max-width: 600px;
+}
+
+.sequence-tile {
+  width: 64px;
+  height: 64px;
+  border-radius: var(--radius-md);
+  background: var(--bg);
+  border: 3px solid var(--ink);
+  box-shadow: 3px 3px 0 var(--ink);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-display);
+  font-size: 1.45rem;
+  font-weight: 800;
+  color: var(--ink);
+  transition: transform 0.15s ease;
+}
+
+.sequence-tile.missing {
+  background: var(--sun);
+  border: 3px dashed var(--ink);
+  color: var(--ink);
+  font-size: 1.8rem;
+  animation: pulseMissing 1s infinite alternate ease-in-out;
+}
+
+@keyframes pulseMissing {
+  0% { transform: scale(0.96); }
+  100% { transform: scale(1.05); }
+}
+
+/* Multiple Choice Options Grid (fills card, 56px min height, 22px font) */
+.pattern-choices-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  width: 100%;
+  max-width: 580px;
+  flex: 1;
+}
+
+.pattern-choice-btn {
+  min-height: 56px;
+  height: 100%;
+  border-radius: var(--radius-md);
+  background: var(--surface);
+  border: 3px solid var(--ink);
+  box-shadow: 4px 4px 0 var(--ink);
+  color: var(--ink);
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: transform 0.1s ease, box-shadow 0.1s ease;
+}
+
+.pattern-choice-btn:hover:not(:disabled) {
+  transform: translate(-1px, -1px);
+  box-shadow: 5px 5px 0 var(--ink);
+}
+
+.pattern-choice-btn:active:not(:disabled) {
+  transform: translate(3px, 3px);
+  box-shadow: 0 0 0 var(--ink);
+}
+
+.pattern-choice-btn.correct-choice {
+  background: var(--teal) !important;
+  color: var(--ink) !important;
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0 var(--ink);
+}
+
+.pattern-choice-btn.wrong-choice {
+  background: var(--tomato) !important;
+  color: var(--ink) !important;
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0 var(--ink);
+  animation: shakeFeedback 150ms ease-in-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pattern-choice-btn.wrong-choice {
+    animation: none;
+  }
+}
+
+@keyframes shakeFeedback {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  75% { transform: translateX(5px); }
+}
+
+/* Pause Overlay */
+.pattern-pause-modal {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: rgba(30, 27, 46, 0.82);
+  z-index: 30;
+  border-radius: var(--radius-lg);
+  padding: 24px;
+}
+
+.pattern-pause-modal .pause-dialog {
+  background: var(--surface);
+  border: 3px solid var(--ink);
+  box-shadow: 6px 6px 0 var(--ink);
+  border-radius: var(--radius-lg);
+  padding: 28px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  text-align: center;
+}
+
+/* --------------------------------------------------------------------------
+   RESPONSIVE (360px & 393px)
+   -------------------------------------------------------------------------- */
+@media (max-width: 600px) {
+  .pattern-choices-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+
+  .pattern-choice-btn {
+    min-height: 56px;
+    font-size: 22px;
+  }
+
+  .sequence-tile {
+    width: 48px;
+    height: 48px;
+    font-size: 1.15rem;
+  }
+}

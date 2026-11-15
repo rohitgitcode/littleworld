@@ -1,0 +1,14 @@
+/**
+ * Little Big World — Central Stylesheet Loader
+ * 
+ * Imports our modular stylesheets in priority order:
+ * 1. global.css: Color tokens, CSS variables, typography reset, arcade buttons & badges
+ * 2. layout.css: Sidebar, Header, mobile navigation drawer & responsive shell
+ * 3. dashboard.css: Welcome banner, player stats, game zones, daily challenge & recent feed
+ * 4. pages.css: Explore World, Achievements, Profile, and Settings styling
+ */
+
+@import './styles/global.css';
+@import './styles/layout.css';
+@import './styles/dashboard.css';
+@import './styles/pages.css';

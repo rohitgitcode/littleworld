@@ -1,0 +1,271 @@
+/* ==========================================================================
+   LITTLE BIG WORLD — MEMORY MAZE CSS (STICKER ARCADE RESTYLE)
+   ========================================================================== */
+
+.memory-game-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+  user-select: none;
+}
+
+/* --------------------------------------------------------------------------
+   HUD
+   -------------------------------------------------------------------------- */
+.memory-hud {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--surface);
+  border: 3px solid var(--ink);
+  border-radius: 16px;
+  padding: 12px 18px;
+  gap: 12px;
+  box-shadow: var(--shadow-card);
+  flex-wrap: wrap;
+}
+
+.memory-hud-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.memory-hud-btn,
+.hud-exit-btn {
+  font-family: var(--font-display);
+  font-size: 0.82rem;
+  font-weight: 800;
+  color: var(--ink);
+  background: var(--surface-2);
+  border: 2px solid var(--ink);
+  padding: 4px 12px;
+  border-radius: var(--radius-full);
+  box-shadow: 2px 2px 0 var(--ink);
+  min-height: 36px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  cursor: pointer;
+}
+
+.memory-title-wrap {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 1.05rem;
+  color: var(--ink);
+}
+
+.hud-title-text {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 130px;
+}
+
+.memory-hud-btn:active {
+  transform: translate(2px, 2px);
+  box-shadow: 0 0 0 var(--ink);
+}
+
+.memory-hud-center {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.memory-stat-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 68px;
+}
+
+.memory-stat-lbl {
+  font-family: var(--font-display);
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  color: var(--muted);
+}
+
+.memory-stat-val {
+  font-family: var(--font-display);
+  font-size: 1.6rem;
+  font-weight: 900;
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+  line-height: 1.1;
+}
+
+.memory-stat-val.score {
+  color: var(--sun);
+}
+
+/* --------------------------------------------------------------------------
+   STICKER ARENA & PADS
+   -------------------------------------------------------------------------- */
+.memory-arena {
+  background: var(--surface-2);
+  border: 3px solid var(--ink);
+  border-radius: 16px;
+  padding: 28px 18px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  box-shadow: var(--shadow-card);
+  touch-action: none;
+}
+
+.memory-status-banner {
+  margin-bottom: 20px;
+  min-height: 38px;
+  display: flex;
+  align-items: center;
+}
+
+.memory-status-pill {
+  font-family: var(--font-display);
+  font-size: 0.88rem;
+  font-weight: 900;
+  letter-spacing: 0.04em;
+  padding: 6px 16px;
+  border-radius: var(--radius-full);
+  border: 2px solid var(--ink);
+  box-shadow: 2px 2px 0 var(--ink);
+  background: var(--surface);
+  color: var(--ink);
+}
+
+.memory-status-pill.watch {
+  background: var(--sun);
+}
+
+.memory-status-pill.your_turn {
+  background: var(--teal);
+}
+
+.memory-status-pill.correct {
+  background: var(--teal);
+}
+
+.memory-status-pill.wrong {
+  background: var(--tomato);
+  color: #FFFFFF;
+}
+
+/* 4-Pads Console Grid */
+.memory-console {
+  position: relative;
+  width: 290px;
+  height: 290px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.memory-pads-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 12px;
+  width: 100%;
+  height: 100%;
+}
+
+.memory-pad {
+  border-radius: 16px;
+  border: 3px solid var(--ink);
+  box-shadow: 3px 3px 0 var(--ink);
+  background: var(--pad-color, var(--surface));
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  cursor: pointer;
+  color: var(--ink);
+  transition: transform 100ms ease, box-shadow 100ms ease;
+  min-height: 120px;
+}
+
+.memory-pad:active:not(:disabled) {
+  transform: translate(2px, 2px);
+  box-shadow: 0 0 0 var(--ink);
+}
+
+.memory-pad.lit {
+  transform: translate(2px, 2px);
+  box-shadow: 0 0 0 var(--ink);
+  filter: brightness(1.25);
+}
+
+.memory-pad:disabled {
+  cursor: not-allowed;
+}
+
+.pad-glyph {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pad-label {
+  font-family: var(--font-display);
+  font-size: 0.78rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+}
+
+/* Center Core Badge */
+.memory-center-core {
+  position: absolute;
+  width: 74px;
+  height: 74px;
+  border-radius: 50%;
+  background: var(--surface);
+  border: 3px solid var(--ink);
+  box-shadow: 2px 2px 0 var(--ink);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  z-index: 5;
+}
+
+.core-step-text {
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  font-weight: 900;
+  color: var(--ink);
+  line-height: 1;
+}
+
+.core-subtext {
+  font-size: 0.62rem;
+  font-weight: 800;
+  color: var(--muted);
+}
+
+/* --------------------------------------------------------------------------
+   STICKER CARDS (READY & RESULTS)
+   -------------------------------------------------------------------------- */
+.memory-card {
+  background: var(--surface);
+  border: 3px solid var(--ink);
+  border-radius: 16px;
+  box-shadow: var(--shadow-card);
+  padding: 28px 22px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 14px;
+}
